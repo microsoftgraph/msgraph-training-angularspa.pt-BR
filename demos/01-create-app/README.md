@@ -1,0 +1,3 @@
+# <a name="completed-module-create-an-angular-single-page-app"></a>Módulo concluído: criar um aplicativo de página única angular
+
+A versão do projeto nesse diretório reflete a conclusão do tutorial para a [criação de um aplicativo angular de página única](https://docs.microsoft.com/graph/training/angular-tutorial?tutorial-step=1). Se você usar esta versão do projeto, precisará concluir o restante do tutorial começando em [registrar o aplicativo no portal](https://docs.microsoft.com/graph/training/angular-tutorial?tutorial-step=2).
