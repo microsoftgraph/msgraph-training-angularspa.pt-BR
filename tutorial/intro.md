@@ -10,7 +10,7 @@ Este tutorial ensina como criar um aplicativo de página única angular que usa 
 Antes de iniciar este tutorial, você deve ter o [node. js](https://nodejs.org) instalado em sua máquina de desenvolvimento. Se você não tiver o Node. js, visite o link anterior para opções de download.
 
 > [!NOTE]
-> Este tutorial foi escrito com o nó versão 10.7.0. As etapas deste guia podem funcionar com outras versões, mas que não foram testadas.
+> Este tutorial foi escrito com o nó versão 10.15.3. As etapas deste guia podem funcionar com outras versões, mas que não foram testadas.
 
 ## <a name="feedback"></a>Comentários
 
