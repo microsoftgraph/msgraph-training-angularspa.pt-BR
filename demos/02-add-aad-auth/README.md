@@ -2,8 +2,8 @@
 
 A versão do projeto nesse diretório reflete a conclusão do tutorial para a [adição da autenticação do Azure ad](https://docs.microsoft.com/graph/training/angular-tutorial?tutorial-step=3). Se você usar esta versão do projeto, precisará concluir o restante do tutorial em [obter dados do calendário](https://docs.microsoft.com/graph/training/angular-tutorial?tutorial-step=4).
 
-> **Observação:** Presume-se que você já tenha registrado um aplicativo no portal de registro de aplicativo conforme especificado em [registrar o aplicativo no portal](https://docs.microsoft.com/graph/training/angular-tutorial?tutorial-step=2). Você precisa configurar esta versão do exemplo da seguinte maneira:
+> **Observação:** Presume-se que você já tenha registrado um aplicativo no portal de registro de aplicativo conforme especificado em [registrar o aplicativo no portal](https://docs.microsoft.com/graph/tutorials/angular?tutorial-step=2). Você precisa configurar esta versão do exemplo da seguinte maneira:
 >
-> 1. ReNomear `oauth.ts.example` o `oauth.ts`arquivo para.
+> 1. Renomear `oauth.ts.example` o `oauth.ts`arquivo para.
 > 1. Edite `oauth.ts` o arquivo e faça as seguintes alterações.
 >     1. Substitua `YOUR_APP_ID_HERE` pela **ID do aplicativo** obtida do portal de registro do aplicativo.
