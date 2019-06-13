@@ -33,7 +33,7 @@ Se você não tem uma conta da Microsoft, há algumas opções para obter uma co
 
     ![Uma captura de tela da ID do aplicativo do novo registro de aplicativo](/tutorial/images/aad-application-id.png)
 
-1. Selecione **Autenticação** em **Gerenciar**. Localize a seção **Grant implícita** e habilite tokens de **acesso** e tokens de **ID**. Selecione **Salvar**.
+1. Selecione **Autenticação** em **Gerenciar**. Localize a seção **Grant implícita** e habilite tokens de **acesso** e tokens de **ID**. Escolha **Salvar**.
 
     ![Uma captura de tela da seção Grant implícita](/tutorial/images/aad-implicit-grant.png)
 
