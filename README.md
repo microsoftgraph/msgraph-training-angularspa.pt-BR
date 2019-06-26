@@ -22,10 +22,14 @@ Se você só quiser que o exemplo completo seja gerado seguindo este laboratóri
 
 - [Projeto concluído](demos/03-add-msgraph)
 
+## <a name="watch-the-module"></a>Assista ao módulo
+
+Este módulo foi gravado e está disponível no Office Development YouTube Channel: [criar spas usam angulares com o Microsoft Graph](https://youtu.be/KUPRTTOUzz8)
+
 ## <a name="contributors"></a>Colaboradores
 
-|       Funções       |                                     Autor (es)                                     |
-| ----------------- | --------------------------------------------------------------------------------- |
+|       Funções       |                                           Autor (es)                                           |
+| ----------------- | --------------------------------------------------------------------------------------------- |
 | Código/tutorial   | Jason Johnston (Microsoft) [@jasonjoh](//github.com/jasonjoh)                                 |
 | Slides            | Jeremy Thake (Microsoft) [@jthake-MSFT](//github.com/jthake-msft)                             |
 | CONTROLE                | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell)         |
@@ -34,13 +38,14 @@ Se você só quiser que o exemplo completo seja gerado seguindo este laboratóri
 
 ## <a name="version-history"></a>Histórico de versão
 
-| Versão |       Data       |              Comments              |
-| ------- | ---------------- | ---------------------------------- |
-| 1.4     | 24 de maio de 2019     | atualização de conteúdo do 2019Q4             |
-| 1.3     | 06 de maio de 2019      | Etapas atualizadas de registro do aplicativo AAD |
-| 1.2     | 18 de março de 2019   | atualização de conteúdo do 2019Q3             |
-| 1.1     | 8 de fevereiro de 2019 | Slides adicionados                       |
-| 1.0     | 2018             | Published                          |
+| Versão |       Data       |                     Comments                     |
+| ------- | ---------------- | ------------------------------------------------ |
+| 1,5     | 18 de junho de 2019    | Leiame atualizado para a gravação de screencast atualizada |
+| 1.4     | 24 de maio de 2019     | atualização de conteúdo do 2019Q4                           |
+| 1.3     | 06 de maio de 2019      | Etapas atualizadas de registro do aplicativo AAD               |
+| 1.2     | 18 de março de 2019   | atualização de conteúdo do 2019Q3                           |
+| 1.1     | 8 de fevereiro de 2019 | Slides adicionados                                     |
+| 1.0     | 2018             | Published                                        |
 
 ## <a name="disclaimer"></a>Aviso de isenção de responsabilidade
 
