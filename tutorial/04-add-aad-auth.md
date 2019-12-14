@@ -280,6 +280,13 @@ private async getUser(): Promise<User> {
 }
 ```
 
+Localize e remova o código a seguir no `getAccessToken` método que adiciona um alerta para exibir o token de acesso.
+
+```TypeScript
+// Temporary to display token in an error box
+if (result) this.alertsService.add('Token acquired', result);
+```
+
 Localize e remova o código a seguir do `signIn` método.
 
 ```TypeScript
@@ -321,7 +328,7 @@ Agora, se você salvar as alterações e iniciar o aplicativo, depois de entrar,
 
 ![Uma captura de tela da Home Page após entrar](./images/add-aad-auth-01.png)
 
-Clique no avatar do usuário no canto superior direito para acessar o **** link sair. Clicar **** em sair redefine a sessão e retorna à Home Page.
+Clique no avatar do usuário no canto superior direito para **acessar o link sair.** Clicar **em sair** redefine a sessão e retorna à Home Page.
 
 ![Uma captura de tela do menu suspenso com o link sair](./images/add-aad-auth-02.png)
 
