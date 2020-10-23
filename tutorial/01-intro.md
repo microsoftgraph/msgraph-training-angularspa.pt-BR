@@ -7,7 +7,7 @@ Este tutorial ensina como criar um aplicativo de página única angular que usa 
 
 ## <a name="prerequisites"></a>Pré-requisitos
 
-Antes de iniciar este tutorial, você deve ter o [node. js](https://nodejs.org) instalado em sua máquina de desenvolvimento. Se você não tiver o Node. js, visite o link anterior para opções de download.
+Antes de iniciar este tutorial, você deve ter o [Node.js](https://nodejs.org) instalado em sua máquina de desenvolvimento. Se você não tiver Node.js, visite o link anterior para opções de download.
 
 Você também deve ter uma conta pessoal da Microsoft com uma caixa de correio no Outlook.com ou uma conta corporativa ou de estudante da Microsoft. Se você não tem uma conta da Microsoft, há algumas opções para obter uma conta gratuita:
 
@@ -15,7 +15,7 @@ Você também deve ter uma conta pessoal da Microsoft com uma caixa de correio n
 - Você pode [se inscrever no programa para desenvolvedores do office 365](https://developer.microsoft.com/office/dev-program) para obter uma assinatura gratuita do Office 365.
 
 > [!NOTE]
-> Este tutorial foi escrito com o nó versão 12.16.1. As etapas deste guia podem funcionar com outras versões, mas que não foram testadas.
+> Este tutorial foi escrito com o nó versão 12.18.4. As etapas deste guia podem funcionar com outras versões, mas que não foram testadas.
 
 ## <a name="watch-the-tutorial"></a>Assista ao tutorial
 

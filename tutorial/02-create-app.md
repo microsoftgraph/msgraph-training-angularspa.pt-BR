@@ -5,7 +5,7 @@ Nesta seção, você criará um novo projeto angular.
 1. Abra a interface de linha de comando (CLI), navegue até um diretório onde você tem direitos para criar arquivos e execute os seguintes comandos para instalar a ferramenta de [CLI angular](https://www.npmjs.com/package/@angular/cli) e criar um novo aplicativo angular.
 
     ```Shell
-    npm install -g @angular/cli@9.0.6
+    npm install -g @angular/cli@10.1.7
     ng new graph-tutorial
     ```
 
@@ -22,7 +22,7 @@ Nesta seção, você criará um novo projeto angular.
     ng serve --open
     ```
 
-1. O navegador padrão é aberto [https://localhost:4200/](https://localhost:4200) com uma página angular padrão. Se o navegador não abrir, abra-o e navegue [https://localhost:4200/](https://localhost:4200) até para verificar se o novo aplicativo funciona.
+1. O navegador padrão é aberto [https://localhost:4200/](https://localhost:4200) com uma página angular padrão. Se o navegador não abrir, abra-o e navegue até [https://localhost:4200/](https://localhost:4200) para verificar se o novo aplicativo funciona.
 
 ## <a name="add-node-packages"></a>Adicionar pacotes de nós
 
@@ -30,19 +30,17 @@ Antes de prosseguir, instale alguns pacotes adicionais que serão usados posteri
 
 - [Bootstrap](https://github.com/twbs/bootstrap) para estilo e componentes comuns.
 - [ng-inicialização](https://github.com/ng-bootstrap/ng-bootstrap) para usar componentes de inicialização de angular.
-- [angular-fontawesome](https://github.com/FortAwesome/angular-fontawesome) para usar fontawesome ícones em angulares.
-- [fontawesome-SVG-Core](https://github.com/FortAwesome/Font-Awesome), [Free-regular-SVG-ícones](https://github.com/FortAwesome/Font-Awesome)e os ícones [gratuitos-Solid-SVG-](https://github.com/FortAwesome/Font-Awesome) para os ícones de fontawesome usados no exemplo.
 - [tempo](https://github.com/moment/moment) para formatar datas e horas.
+- [Windows-IANA](https://github.com/rubenillodo/windows-iana)
 - [MSAL-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-angular/README.md) para autenticação no Azure Active Directory e recuperação de tokens de acesso.
 - [Microsoft-Graph-Client](https://github.com/microsoftgraph/msgraph-sdk-javascript) para fazer chamadas para o Microsoft Graph.
 
 1. Execute os seguintes comandos em sua CLI.
 
     ```Shell
-    npm install bootstrap@4.4.1 @fortawesome/angular-fontawesome@0.6.0 @fortawesome/fontawesome-svg-core@1.2.27
-    npm install @fortawesome/free-regular-svg-icons@5.12.1 @fortawesome/free-solid-svg-icons@5.12.1
-    npm install moment@2.24.0 moment-timezone@0.5.28 @ng-bootstrap/ng-bootstrap@6.0.0
-    npm install msal@1.2.1 @azure/msal-angular@1.0.0-beta.4 @microsoft/microsoft-graph-client@2.0.0
+    npm install bootstrap@4.5.3 @ng-bootstrap/ng-bootstrap@7.0.0 msal@1.4.2 @azure/msal-angular@1.1.1
+    npm install moment@2.29.1 moment-timezone@0.5.31 windows-iana@4.2.1
+    npm install @microsoft/microsoft-graph-client@2.1.0 @microsoft/microsoft-graph-types@1.24.0
     ```
 
 1. Execute o seguinte comando em sua CLI para adicionar o pacote de localização angular (exigido pela ng-Bootstrap).
@@ -55,51 +53,38 @@ Antes de prosseguir, instale alguns pacotes adicionais que serão usados posteri
 
 Nesta seção, você criará a interface do usuário para o aplicativo.
 
-1. Abra o `./src/styles.css` e adicione as linhas a seguir.
+1. Abra **./src/Styles.css** e adicione as linhas a seguir.
 
     :::code language="css" source="../demo/graph-tutorial/src/styles.css":::
 
-1. Adicione os módulos Bootstrap e FontAwesome ao aplicativo. Abra `./src/app/app.module.ts` e substitua seu conteúdo pelo seguinte.
+1. Adicione o módulo Bootstrap ao aplicativo. Abra **./src/app/app.Module.TS** e substitua seu conteúdo pelo seguinte.
 
-    ```TypeScript
+    ```typescript
     import { BrowserModule } from '@angular/platform-browser';
+    import { FormsModule } from '@angular/forms';
     import { NgModule } from '@angular/core';
     import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-    import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-    import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
-    import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 
     import { AppRoutingModule } from './app-routing.module';
     import { AppComponent } from './app.component';
-    import { NavBarComponent } from './nav-bar/nav-bar.component';
-    import { HomeComponent } from './home/home.component';
-    import { AlertsComponent } from './alerts/alerts.component';
 
     @NgModule({
       declarations: [
-        AppComponent,
-        NavBarComponent,
-        HomeComponent,
-        AlertsComponent
+        AppComponent
       ],
       imports: [
         BrowserModule,
+        FormsModule,
         AppRoutingModule,
-        NgbModule,
-        FontAwesomeModule
+        NgbModule
       ],
       providers: [],
       bootstrap: [AppComponent]
     })
-    export class AppModule {
-      constructor(library: FaIconLibrary) {
-        // Register the FontAwesome icons used by the app
-        library.addIcons(faExternalLinkAlt, faUserCircle);
-      }
-     }
+    export class AppModule { }
     ```
 
-1. Crie um novo arquivo na `./src/app` pasta chamada `user.ts` e adicione o código a seguir.
+1. Crie um novo arquivo na pasta **./src/app** chamado **User. TS** e adicione o código a seguir.
 
     :::code language="typescript" source="../demo/graph-tutorial/src/app/user.ts" id="user":::
 
@@ -109,9 +94,9 @@ Nesta seção, você criará a interface do usuário para o aplicativo.
     ng generate component nav-bar
     ```
 
-1. Quando o comando for concluído, abra o `./src/app/nav-bar/nav-bar.component.ts` arquivo e substitua seu conteúdo pelo seguinte.
+1. Quando o comando for concluído, abra **./src/app/NAV-bar/NAV-bar.Component.TS** e substitua o conteúdo pelo seguinte.
 
-    ```TypeScript
+    ```typescript
     import { Component, OnInit } from '@angular/core';
 
     import { User } from '../user';
@@ -162,7 +147,7 @@ Nesta seção, você criará a interface do usuário para o aplicativo.
     }
     ```
 
-1. Abra o `./src/app/nav-bar/nav-bar.component.html` arquivo e substitua seu conteúdo pelo seguinte.
+1. Abra **./src/app/nav-bar/nav-bar.component.html** e substitua seu conteúdo pelo seguinte.
 
     :::code language="html" source="../demo/graph-tutorial/src/app/nav-bar/nav-bar.component.html" id="navHtml":::
 
@@ -172,9 +157,9 @@ Nesta seção, você criará a interface do usuário para o aplicativo.
     ng generate component home
     ```
 
-1. Quando o comando for concluído, abra o `./src/app/home/home.component.ts` arquivo e substitua seu conteúdo pelo seguinte.
+1. Quando o comando for concluído, abra **./src/app/Home/Home.Component.TS** e substitua o conteúdo pelo seguinte.
 
-    ```TypeScript
+    ```typescript
     import { Component, OnInit } from '@angular/core';
 
     import { User } from '../user';
@@ -209,11 +194,11 @@ Nesta seção, você criará a interface do usuário para o aplicativo.
     }
     ```
 
-1. Abra o `./src/app/home/home.component.html` arquivo e substitua seu conteúdo pelo seguinte.
+1. Abra **./src/app/home/home.component.html** e substitua seu conteúdo pelo seguinte.
 
     :::code language="html" source="../demo/graph-tutorial/src/app/home/home.component.html" id="homeHtml":::
 
-1. Criar uma classe `Alert` simples. Crie um novo arquivo no `./src/app` diretório chamado `alert.ts` e adicione o código a seguir.
+1. Criar uma `Alert` classe simples. Crie um novo arquivo no diretório **./src/app** chamado **Alert. TS** e adicione o código a seguir.
 
     :::code language="typescript" source="../demo/graph-tutorial/src/app/alert.ts" id="alert":::
 
@@ -223,7 +208,7 @@ Nesta seção, você criará a interface do usuário para o aplicativo.
     ng generate service alerts
     ```
 
-1. Abra o `./src/app/alerts.service.ts` arquivo e substitua seu conteúdo pelo seguinte.
+1. Abra **./src/app/Alerts.Service.TS** e substitua seu conteúdo pelo seguinte.
 
     :::code language="typescript" source="../demo/graph-tutorial/src/app/alerts.service.ts" id="alertsService":::
 
@@ -233,15 +218,15 @@ Nesta seção, você criará a interface do usuário para o aplicativo.
     ng generate component alerts
     ```
 
-1. Quando o comando for concluído, abra o `./src/app/alerts/alerts.component.ts` arquivo e substitua seu conteúdo pelo seguinte.
+1. Quando o comando for concluído, abra **./src/app/Alerts/Alerts.Component.TS** e substitua o conteúdo pelo seguinte.
 
     :::code language="typescript" source="../demo/graph-tutorial/src/app/alerts/alerts.component.ts" id="alertComponent":::
 
-1. Abra o `./src/app/alerts/alerts.component.html` arquivo e substitua seu conteúdo pelo seguinte.
+1. Abra **./src/app/alerts/alerts.component.html** e substitua seu conteúdo pelo seguinte.
 
     :::code language="html" source="../demo/graph-tutorial/src/app/alerts/alerts.component.html" id="alertHtml":::
 
-1. Abra o `./src/app/app-routing.module.ts` arquivo e substitua a `const routes: Routes = [];` linha pelo código a seguir.
+1. Abra **./src/app/app-Routing.Module.TS** e substitua a `const routes: Routes = [];` linha pelo código a seguir.
 
     ```typescript
     import { HomeComponent } from './home/home.component';
@@ -251,9 +236,11 @@ Nesta seção, você criará a interface do usuário para o aplicativo.
     ];
     ```
 
-1. Abra o arquivo `./src/app/app.component.html` e substitua o conteúdo inteiro pelo seguinte:
+1. Abra **./src/app/app.component.html** e substitua todo o seu conteúdo pelo seguinte.
 
     :::code language="html" source="../demo/graph-tutorial/src/app/app.component.html" id="appHtml":::
+
+1. Adicione um arquivo de imagem de sua escolha nomeada **no-profile-photo.png** no diretório **./src/assets** . Esta imagem será usada como foto do usuário quando o usuário não tiver nenhuma foto no Microsoft Graph.
 
 Salve todas as suas alterações e atualize a página. Agora, o aplicativo deve ser muito diferente.
 

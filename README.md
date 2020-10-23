@@ -32,14 +32,15 @@ Este módulo foi gravado e está disponível no Office Development YouTube Chann
 
 | Versão |       Data       |                     Comentários                     |
 | ------- | ---------------- | ------------------------------------------------ |
+| 1.7     | 22 de outubro de 2020 | Exemplo atualizado para versões mais recentes                |
 | 1.6     | 16 de março de 2020   | Exemplo atualizado para versões mais recentes                |
 | 1,5     | 18 de junho de 2019    | Leiame atualizado para a gravação de screencast atualizada |
 | 1.4     | 24 de maio de 2019     | atualização de conteúdo do 2019Q4                           |
 | 1.3     | 06 de maio de 2019      | Etapas atualizadas de registro do aplicativo AAD               |
 | 1.2     | 18 de março de 2019   | atualização de conteúdo do 2019Q3                           |
 | 1.1     | 8 de fevereiro de 2019 | Slides adicionados                                     |
-| 1.0     | 2018             | Published                                        |
+| 1.0     | 2018             | Publicado                                        |
 
-## <a name="disclaimer"></a>Aviso de isenção de responsabilidade
+## <a name="disclaimer"></a>Aviso de isenção
 
 **Este código é fornecido *como está* sem garantia de qualquer tipo, seja expressa ou implícita, incluindo quaisquer garantias implícitas de ADEQÜAÇÃO para um propósito específico, comercialização ou não-violação.**
