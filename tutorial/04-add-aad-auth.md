@@ -1,30 +1,43 @@
 <!-- markdownlint-disable MD002 MD041 -->
 
-Neste exercício, você estenderá o aplicativo do exercício anterior para oferecer suporte à autenticação com o Azure AD. Isso é necessário para obter o token de acesso OAuth necessário para chamar o Microsoft Graph. Nesta etapa, você integrará a [biblioteca de autenticação da Microsoft para o angular](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-angular/README.md) no aplicativo.
+Neste exercício, você estenderá o aplicativo do exercício anterior para dar suporte à autenticação com o Azure AD. Isso é necessário para obter o token de acesso OAuth necessário para chamar o Microsoft Graph. Nesta etapa, você integrará a Biblioteca de [Autenticação da Microsoft para Angular](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-angular/README.md) ao aplicativo.
 
-1. Crie um novo arquivo no diretório **./src** chamado **OAuth. TS** e adicione o código a seguir.
+1. Crie um novo arquivo no **diretório ./src** chamado **oauth.ts** e adicione o código a seguir.
 
     :::code language="typescript" source="../demo/graph-tutorial/src/oauth.example.ts":::
 
-    Substitua `YOUR_APP_ID_HERE` pela ID do aplicativo do portal de registro do aplicativo.
+    Substitua `YOUR_APP_ID_HERE` pela ID do aplicativo no Portal de Registro de Aplicativos.
 
     > [!IMPORTANT]
-    > Se você estiver usando o controle de origem como o Git, agora seria uma boa hora para excluir o arquivo **OAuth. TS** do controle de código-fonte para evitar vazar inadvertidamente sua ID de aplicativo.
+    > Se você estiver usando o controle de origem, como git, agora seria um bom momento para excluir o arquivo **oauth.ts** do controle de origem para evitar o vazamento inadvertida da ID do aplicativo.
 
-1. Abra **./src/app/app.Module.TS** e adicione as seguintes `import` instruções à parte superior do arquivo.
+1. Abra **./src/app/app.module.ts** e adicione as instruções a seguir `import` à parte superior do arquivo.
 
     ```typescript
-    import { MsalModule } from '@azure/msal-angular';
+    import { IPublicClientApplication,
+             PublicClientApplication,
+             BrowserCacheLocation } from '@azure/msal-browser';
+    import { MsalModule,
+             MsalService,
+             MSAL_INSTANCE } from '@azure/msal-angular';
     import { OAuthSettings } from '../oauth';
     ```
 
-1. Adicione o `MsalModule` à `imports` matriz dentro da `@NgModule` declaração e inicialize-o com a ID do aplicativo.
+1. Adicione a seguinte função abaixo das `import` instruções.
 
-    :::code language="typescript" source="../demo/graph-tutorial/src/app/app.module.ts" id="imports" highlight="6-11":::
+    :::code language="typescript" source="../demo/graph-tutorial/src/app/app.module.ts" id="MSALFactorySnippet":::
 
-## <a name="implement-sign-in"></a>Implementar logon
+1. Adicione a `MsalModule` matriz `imports` à `@NgModule` declaração.
 
-Nesta seção, você criará um serviço de autenticação e implementará a entrada e a saída.
+    :::code language="typescript" source="../demo/graph-tutorial/src/app/app.module.ts" id="ImportsSnippet" highlight="6":::
+
+1. Adicione e `MSALInstanceFactory` à matriz dentro da `MsalService` `providers` `@NgModule` declaração.
+
+    :::code language="typescript" source="../demo/graph-tutorial/src/app/app.module.ts" id="ProvidersSnippet" highlight="2-6":::
+
+## <a name="implement-sign-in"></a>Implementar login
+
+Nesta seção, você criará um serviço de autenticação e implementará a assinatura e a saída.
 
 1. Execute o seguinte comando em sua CLI.
 
@@ -32,12 +45,13 @@ Nesta seção, você criará um serviço de autenticação e implementará a ent
     ng generate service auth
     ```
 
-    Ao criar um serviço para isso, você pode injetar-o facilmente em qualquer componente que precise acessar os métodos de autenticação.
+    Ao criar um serviço para isso, você pode injetá-lo facilmente em todos os componentes que precisem de acesso aos métodos de autenticação.
 
-1. Quando o comando terminar, abra **./src/app/AUTH.Service.TS** e substitua o conteúdo pelo código a seguir.
+1. Depois que o comando terminar, abra **./src/app/auth.service.ts** e substitua seu conteúdo pelo código a seguir.
 
     ```typescript
     import { Injectable } from '@angular/core';
+    import { AccountInfo } from '@azure/msal-browser';
     import { MsalService } from '@azure/msal-angular';
 
     import { AlertsService } from './alerts.service';
@@ -50,25 +64,29 @@ Nesta seção, você criará um serviço de autenticação e implementará a ent
 
     export class AuthService {
       public authenticated: boolean;
-      public user: User;
+      public user?: User;
 
       constructor(
         private msalService: MsalService,
         private alertsService: AlertsService) {
 
         this.authenticated = false;
-        this.user = null;
+        this.user = undefined;
       }
 
       // Prompt the user to sign in and
       // grant consent to the requested permission scopes
       async signIn(): Promise<void> {
-        let result = await this.msalService.loginPopup(OAuthSettings)
+        const result = await this.msalService
+          .loginPopup(OAuthSettings)
+          .toPromise()
           .catch((reason) => {
-            this.alertsService.addError('Login failed', JSON.stringify(reason, null, 2));
+            this.alertsService.addError('Login failed',
+              JSON.stringify(reason, null, 2));
           });
 
         if (result) {
+          this.msalService.instance.setActiveAccount(result.account);
           this.authenticated = true;
           // Temporary placeholder
           this.user = new User();
@@ -79,15 +97,19 @@ Nesta seção, você criará um serviço de autenticação e implementará a ent
       }
 
       // Sign out
-      signOut(): void {
-        this.msalService.logout();
-        this.user = null;
+      async signOut(): Promise<void> {
+        await this.msalService.logout().toPromise();
+        this.user = undefined;
         this.authenticated = false;
       }
 
       // Silently request an access token
       async getAccessToken(): Promise<string> {
-        let result = await this.msalService.acquireTokenSilent(OAuthSettings)
+        const result = await this.msalService
+          .acquireTokenSilent({
+            scopes: OAuthSettings.scopes
+          })
+          .toPromise()
           .catch((reason) => {
             this.alertsService.addError('Get token failed', JSON.stringify(reason, null, 2));
           });
@@ -100,26 +122,26 @@ Nesta seção, você criará um serviço de autenticação e implementará a ent
 
         // Couldn't get a token
         this.authenticated = false;
-        return null;
+        return '';
       }
     }
     ```
 
-1. Abra **./src/app/NAV-bar/NAV-bar.Component.TS** e substitua seu conteúdo pelo seguinte.
+1. Abra **./src/app/nav-bar/nav-bar.component.ts** e substitua seu conteúdo pelo seguinte.
 
-    :::code language="typescript" source="../demo/graph-tutorial/src/app/nav-bar/nav-bar.component.ts" id="navBarSnippet" highlight="3,15-22,24,26-28,36-38,40-42":::
+    :::code language="typescript" source="../demo/graph-tutorial/src/app/nav-bar/nav-bar.component.ts" id="navBarSnippet" highlight="3,15-22,24,34-36,38-40":::
 
-1. Abra **./src/app/Home/Home.Component.TS** e substitua seu conteúdo pelo seguinte.
+1. Abra **./src/app/home/home.component.ts** e substitua seu conteúdo pelo seguinte.
 
-    :::code language="typescript" source="snippets/snippets.ts" id="homeSnippet" highlight="3,12-19,21,23,25-32":::
+    :::code language="typescript" source="snippets/snippets.ts" id="homeSnippet" highlight="3,13-20,22,26-33":::
 
-Salve suas alterações e atualize o navegador. Clique no botão **clique aqui para entrar** e você deve ser redirecionado para o `https://login.microsoftonline.com` . Faça logon com sua conta da Microsoft e concorde com as permissões solicitadas. A página do aplicativo deve ser atualizada, mostrando o token.
+Salve suas alterações e atualize o navegador. Clique no **botão Clique aqui para entrar** e você deve ser redirecionado para `https://login.microsoftonline.com` . Faça logon com sua conta da Microsoft e consenta com as permissões solicitadas. A página do aplicativo deve ser atualizada, mostrando o token.
 
 ### <a name="get-user-details"></a>Obter detalhes do usuário
 
-No momento, o serviço de autenticação define valores constantes para o nome de exibição e endereço de email do usuário. Agora que você tem um token de acesso, você pode obter detalhes do usuário do Microsoft Graph para que esses valores correspondam ao usuário atual.
+No momento, o serviço de autenticação define valores constantes para o nome de exibição e o endereço de email do usuário. Agora que você tem um token de acesso, você pode obter detalhes do usuário do Microsoft Graph para que esses valores correspondam ao usuário atual.
 
-1. Abra **./src/app/AUTH.Service.TS** e adicione as seguintes `import` instruções à parte superior do arquivo.
+1. Abra **./src/app/auth.service.ts** e adicione as instruções a seguir `import` à parte superior do arquivo.
 
     ```typescript
     import { Client } from '@microsoft/microsoft-graph-client';
@@ -128,9 +150,9 @@ No momento, o serviço de autenticação define valores constantes para o nome d
 
 1. Adicione uma nova função à classe `AuthService` chamada `getUser`.
 
-    :::code language="typescript" source="../demo/graph-tutorial/src/app/auth.service.ts" id="getUserSnippet":::
+    :::code language="typescript" source="../demo/graph-tutorial/src/app/auth.service.ts" id="GetUserSnippet":::
 
-1. Localize e remova o código a seguir no `getAccessToken` método que adiciona um alerta para exibir o token de acesso.
+1. Localize e remova o código a seguir `getAccessToken` no método que adiciona um alerta para exibir o token de acesso.
 
     ```typescript
     // Temporary to display token in an error box
@@ -153,26 +175,26 @@ No momento, o serviço de autenticação define valores constantes para o nome d
     this.user = await this.getUser();
     ```
 
-    Este novo código usa o SDK do Microsoft Graph para obter os detalhes do usuário e, em seguida, cria um `User` objeto usando valores retornados pela chamada à API.
+    Esse novo código usa o SDK do Microsoft Graph para obter os detalhes do usuário e cria um objeto usando valores retornados `User` pela chamada da API.
 
-1. Altere o `constructor` para a `AuthService` classe para verificar se o usuário já está conectado e carregar seus detalhes em caso afirmativo. Substitua o existente `constructor` pelo seguinte.
+1. Altere o para a classe para verificar se o usuário já está conectado e `constructor` carregar seus detalhes em caso `AuthService` afirmado. Substitua o existente `constructor` pelo seguinte.
 
-    :::code language="typescript" source="../demo/graph-tutorial/src/app/auth.service.ts" id="constructorSnippet" highlight="5-6":::
+    :::code language="typescript" source="../demo/graph-tutorial/src/app/auth.service.ts" id="ConstructorSnippet" highlight="5-7":::
 
-1. Remova o código temporário da `HomeComponent` classe. Abra **./src/app/Home/Home.Component.TS** e substitua a `signIn` função existente pelo seguinte.
+1. Remova o código temporário da `HomeComponent` classe. Abra **./src/app/home/home.component.ts** e substitua a função `signIn` existente pelo seguinte.
 
-    :::code language="typescript" source="../demo/graph-tutorial/src/app/home/home.component.ts" id="signInSnippet":::
+    :::code language="typescript" source="../demo/graph-tutorial/src/app/home/home.component.ts" id="SignInSnippet":::
 
-Agora, se você salvar as alterações e iniciar o aplicativo, depois de entrar, você deverá terminar de volta na Home Page, mas a interface do usuário deverá mudar para indicar que você está conectado.
+Agora, se você salvar suas alterações e iniciar o aplicativo, depois de entrar, você deve terminar de volta na home page, mas a interface do usuário deve mudar para indicar que você está in-loco.
 
-![Uma captura de tela da Home Page após entrar](./images/add-aad-auth-01.png)
+![Uma captura de tela da página inicial após o login](./images/add-aad-auth-01.png)
 
-Clique no avatar do usuário no canto superior direito para **acessar o link sair.** Clicar **em sair** redefine a sessão e retorna à Home Page.
+Clique no avatar do usuário no canto superior direito para acessar o link **Sair.** Clicar em **Sair redefine** a sessão e retorna você para a home page.
 
-![Uma captura de tela do menu suspenso com o link sair](./images/add-aad-auth-02.png)
+![Uma captura de tela do menu suspenso com o link Sair](./images/add-aad-auth-02.png)
 
 ## <a name="storing-and-refreshing-tokens"></a>Armazenar e atualizar tokens
 
-Nesse ponto, seu aplicativo tem um token de acesso, que é enviado no `Authorization` cabeçalho das chamadas de API. Este é o token que permite que o aplicativo acesse o Microsoft Graph em nome do usuário.
+Neste ponto, seu aplicativo tem um token de acesso, que é enviado no `Authorization` header de chamadas da API. Esse é o token que permite que o aplicativo acesse o Microsoft Graph em nome do usuário.
 
-No entanto, esse token é de vida curta. O token expira uma hora após sua emissão. Como o aplicativo está usando a biblioteca MSAL, você não precisa implementar qualquer lógica de armazenamento ou de atualização. O `MsalService` armazena em cache o token no armazenamento do navegador. O `acquireTokenSilent` método primeiro verifica o token em cache e, se ele não tiver expirado, ele o retornará. Se ele tiver expirado, ele fará uma solicitação silenciosa para obter um novo.
+No entanto, esse token tem vida curta. O token expira uma hora após a emissão. Como o aplicativo está usando a biblioteca MSAL, você não precisa implementar nenhum armazenamento de token ou lógica de atualização. O `MsalService` cache do token no armazenamento do navegador. O método primeiro verifica o token armazenado em `acquireTokenSilent` cache e, se não estiver expirado, ele o retornará. Se expirar, ele fará uma solicitação silenciosa para obter um novo.
