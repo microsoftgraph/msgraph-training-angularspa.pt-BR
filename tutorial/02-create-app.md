@@ -1,15 +1,15 @@
 <!-- markdownlint-disable MD002 MD041 -->
 
-Nesta seção, você criará um novo projeto Angular.
+Nesta seção, você criará um novo Angular projeto.
 
-1. Abra sua interface de linha de comando (CLI), navegue até um diretório onde você tem direitos para criar arquivos e execute os seguintes comandos para instalar a ferramenta [CLI Angular](https://www.npmjs.com/package/@angular/cli) e criar um novo aplicativo Angular.
+1. Abra sua interface de linha de comando (CLI), navegue até um diretório no qual você tem direitos para criar arquivos e execute os seguintes comandos para instalar a ferramenta [Angular CLI](https://www.npmjs.com/package/@angular/cli) e criar um novo aplicativo Angular.
 
     ```Shell
     npm install -g @angular/cli@11.2.9
     ng new graph-tutorial
     ```
 
-1. A CLI angular solicitará mais informações. Responda aos prompts da seguinte forma.
+1. A Angular CLI solicitará mais informações. Responda aos prompts da seguinte forma.
 
     ```Shell
     ? Do you want to enforce stricter type checking and stricter bundle budgets in the workspace? Yes
@@ -23,29 +23,29 @@ Nesta seção, você criará um novo projeto Angular.
     ng serve --open
     ```
 
-1. Seu navegador padrão é aberto [https://localhost:4200/](https://localhost:4200) com uma página angular padrão. Se o navegador não abrir, abra-o e navegue até verificar [https://localhost:4200/](https://localhost:4200) se o novo aplicativo funciona.
+1. Seu navegador padrão é aberto [https://localhost:4200/](https://localhost:4200) com uma página Angular padrão. Se o navegador não abrir, abra-o e navegue até verificar [https://localhost:4200/](https://localhost:4200) se o novo aplicativo funciona.
 
 ## <a name="add-node-packages"></a>Adicionar pacotes de nó
 
 Antes de continuar, instale alguns pacotes adicionais que você usará posteriormente:
 
 - [bootstrap](https://github.com/twbs/bootstrap) para estilo e componentes comuns.
-- [ng-bootstrap para](https://github.com/ng-bootstrap/ng-bootstrap) usar componentes Bootstrap do Angular.
+- [ng-bootstrap para](https://github.com/ng-bootstrap/ng-bootstrap) usar componentes Bootstrap de Angular.
 - [momento](https://github.com/moment/moment) para formatação de datas e horas.
 - [windows-iana](https://github.com/rubenillodo/windows-iana)
-- [msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-angular/README.md) para autenticação no Azure Active Directory e recuperação de tokens de acesso.
-- [microsoft-graph-client](https://github.com/microsoftgraph/msgraph-sdk-javascript) para fazer chamadas ao Microsoft Graph.
+- [msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-angular/README.md) para autenticação para Azure Active Directory e recuperação de tokens de acesso.
+- [microsoft-graph-client](https://github.com/microsoftgraph/msgraph-sdk-javascript) para fazer chamadas para o Microsoft Graph.
 
 1. Execute os seguintes comandos em sua CLI.
 
     ```Shell
     npm install bootstrap@4.6.0 @ng-bootstrap/ng-bootstrap@9.1.0
     npm install @azure/msal-browser@2.14.0 @azure/msal-angular@2.0.0-beta.4
-    npm install moment-timezone@0.5.33 windows-iana@5.0.1
+    npm install moment-timezone@0.5.33 windows-iana@5.0.2
     npm install @microsoft/microsoft-graph-client@2.2.1 @microsoft/microsoft-graph-types@1.35.0
     ```
 
-1. Execute o seguinte comando em sua CLI para adicionar o pacote de localização angular (exigido por ng-bootstrap).
+1. Execute o seguinte comando em sua CLI para adicionar o pacote de Angular de localização (exigido pelo ng-bootstrap).
 
     ```Shell
     ng add @angular/localize
@@ -90,7 +90,7 @@ Nesta seção, você criará a interface do usuário para o aplicativo.
 
     :::code language="typescript" source="../demo/graph-tutorial/src/app/user.ts" id="UserSnippet":::
 
-1. Gere um componente Angular para a navegação superior na página. Em sua CLI, execute o seguinte comando.
+1. Gere um Angular para a navegação superior na página. Em sua CLI, execute o seguinte comando.
 
     ```Shell
     ng generate component nav-bar
